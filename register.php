@@ -1,3 +1,128 @@
+<?php
+require_once("./storage/db.php");
+require_once("./storage/userCrud.php");
+if (isset($_COOKIE['user'])) {
+    header("location:./home.php");
+    exit;
+}
+$name = $nameErr = "";
+$email = $emailErr = "";
+$password = $passwordErr = "";
+$confirmPassword = $confirmPasswordErr = "";
+$invalid = true;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars(trim($_POST['name']));
+    $email = htmlspecialchars(trim($_POST['email']));
+    $password = htmlspecialchars(trim($_POST['password']));
+    $confirmPassword = htmlspecialchars(trim($_POST['confirmPassword']));
+
+    if ($name == "") {
+        $nameErr = "Enter your name...";
+        $invalid = false;
+    } else {
+        if (!preg_match('/^[A-Za-z][A-Za-z0-9 ]*$/', $name)) {
+            $nameErr = "Invalid name";
+            $invalid = false;
+        }
+    }
+    if ($email == "") {
+        $emailErr = "Enter your email...";
+        $invalid = false;
+    } else {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            $emailErr = "Please enter valid email format!";
+            $invalid = false;
+        }
+    }
+
+    if ($password == "") {
+        $passwordErr = "Enter your password...";
+        $invalid = false;
+    } else {
+        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,20}$/', $password)) {
+            $passwordErr = "Invalid password format (Eg.Hein@123)";
+            $invalid = false;
+        }
+    }
+    if ($confirmPassword == "") {
+        $confirmPasswordErr = "Confirm Password cann't be blank!";
+        $invalid = false;
+    }
+    if ($confirmPassword != $password) {
+        $confirmPasswordErr = "Confirm password does not match to password!";
+        $invalid = false;
+    }
+    if ($invalid) {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $status = save_user($mysqli, $name, $email, $hashedPassword);
+        if ($status) {
+            $user = get_user_with_email($mysqli, $email);
+            setcookie("user", json_encode($user), time() + 60 * 60 * 24 * 30, "/");
+            header("Location:./home.php");
+        } else {
+            echo "There is an error";
+        }
+    }
+
+    // if ($invalid) {
+    //     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    //     $targetDir = './assets/userProfile/';
+    //     $newFileName = uniqid('img_') . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
+    //     $targetFilePath = $targetDir . $newFileName;
+    //     $status = save_user($mysqli, $userName, $userEmail, $hashedPassword, $newFileName);
+    //     if ($status) {
+    //         if (move_uploaded_file($fileTmpPath, $targetFilePath)) {
+    //             $user = get_user_with_email($mysqli, $userEmail);
+    //             setcookie("user", json_encode($user), time() + 60 * 60 * 24 * 30, "/");
+    //             if (isset($_GET['order'])) {
+    //                 $index = 0;
+    //                 $excuteQuery = true; // Default value for $excuteQuery
+    //                 $item_count = count($item_array); // Total number of items in the array
+    //                 while ($index < $item_count) {
+    //                     $item = $item_array[$index]; // Access the current item
+    //                     $current_branch_id = $item['branch_id'];
+    //                     $current_product_id = $item['product_id'];
+    //                     $current_branch_product = get_branch_product_for_order_detail($mysqli, $current_product_id, $current_branch_id);
+
+    //                     if ($current_branch_product['qty'] == 0) {
+    //                         $excuteQuery = false;
+    //                         break;
+    //                     }
+
+    //                     $index++; // Move to the next item
+    //                 }
+
+    //                 if ($excuteQuery == true) {
+    //                     if (save_order_product($mysqli, $user['user_id'])) {
+    //                         $order_product_id = get_last_order_product_id($mysqli);
+    //                         $item_array =  $_SESSION["item_list"];
+    //                         foreach ($item_array as $index => $item) {
+    //                             $total = $item['qty'] * $item['price'];
+    //                             save_order_detail($mysqli, $order_product_id['order_product_id'], $item['branch_product_id'], $item['qty'], $total);
+    //                             update_qty_when_order_success($mysqli, $item['qty'], $item['branch_product_id']);
+    //                         }
+    //                         // $_SESSION["item_list"] = []; // initial state is true
+    //                         unset($_SESSION["item_list"]);
+    //                         session_destroy();
+    //                         header("Location:./home.php");
+    //                     }
+    //                 } else {
+    //                     unset($_SESSION["item_list"]);
+    //                     session_destroy();
+    //                     header("Location:select_shop.php?orderByOther&branch_id=" . $_GET['branch_id']);
+    //                 }
+    //             } else {
+    //                 header("Location:./index.php");
+    //             }
+    //         }
+    //     } else {
+    //         $fail_query = $status;
+    //         echo $fail_query;
+    //     }
+    // }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,29 +156,33 @@
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
         <div class="card w-50 shadow-lg p-4">
             <h3 class="text-center text-white mb-4">Register</h3>
-            <form action="" method="post">
+            <form method="post">
                 <div class="form-group mb-3">
                     <label for="name" class="form-label text-white">Name</label>
-                    <input type="text" class="form-control py-2" name="name" id="name" placeholder="Enter your name">
+                    <input type="text" class="form-control py-2" name="name" id="name" value="<?= $name ?>" placeholder="Enter your name">
+                    <div style="height: 10px;" class="text-danger"><b><?= $nameErr ?></b></div>
                 </div>
 
                 <div class="form-group mb-3">
                     <label for="email" class="form-label text-white">Email</label>
-                    <input type="email" class="form-control py-2" name="email" id="email" placeholder="Enter your email">
+                    <input type="email" class="form-control py-2" name="email" value="<?= $email ?>" id="email" placeholder="Enter your email">
+                    <div style="height: 10px;" class="text-danger"><b><?= $emailErr ?></b></div>
                 </div>
 
                 <div class="form-group mb-3">
                     <label for="password" class="form-label text-white">Password</label>
-                    <input type="password" class="form-control py-2" name="password" id="password" placeholder="Enter your password">
+                    <input type="password" class="form-control py-2" value="<?= $password ?>" name="password" id="password" placeholder="Enter your password">
+                    <div style="height: 10px;" class="text-danger"><b><?= $passwordErr ?></b></div>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="confirm_password" class="form-label text-white">Confirm Password</label>
-                    <input type="password" class="form-control py-2" name="confirm_password" id="confirm_password" placeholder="Re-enter your password">
+                    <label for="confirmPassword" class="form-label text-white">Confirm Password</label>
+                    <input type="password" class="form-control py-2" name="confirmPassword" value="<?= $confirmPassword ?>" id="confirmPassword" placeholder="Re-enter your password">
+                    <div style="height: 10px;" class="text-danger"><b><?= $confirmPasswordErr ?></b></div>
                 </div>
 
-                <div class="form-group mt-4 text-center">
-                    <button type="submit" class="btn btn-success w-50 py-2">Register</button>
+                <div class="form-group  text-center">
+                    <button type="submit" class="btn btn-success w-50 py-3 mt-4">Register</button>
                 </div>
                 <div class="form-group mt-4 text-center">
                     <p>Don't have an account? <a href="./login.php">Login Here</a></p>

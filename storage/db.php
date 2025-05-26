@@ -5,7 +5,6 @@ try {
     if ($mysqli->query($sql)) {
         if ($mysqli->select_db("online_shop")) {
             create_table($mysqli);
-            echo "Created Successfully";
         }
     }
 } catch (\Throwable $th) {
@@ -16,7 +15,7 @@ try {
 // auto create all table when our index page is loaded
 function create_table($mysqli)
 {
-    $sql = "CREATE TABLE IF NOT EXISTS `user`(`user_id` INT AUTO_INCREMENT,`user_name` VARCHAR(70) NOT NULL,`email` VARCHAR(70) UNIQUE,`password` VARCHAR(220) NOT NULL,`address` VARCHAR(220) NOT NULL,`phone` VARCHAR(50) NOT NULL,`profile` LONGTEXT NOT NULL,`role` INT NOT NULL ,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(`user_id`))";
+    $sql = "CREATE TABLE IF NOT EXISTS `user`(`user_id` INT AUTO_INCREMENT,`user_name` VARCHAR(70) NOT NULL,`email` VARCHAR(70) UNIQUE NOT NULL,`password` VARCHAR(220) NOT NULL,`address` VARCHAR(220),`phone` VARCHAR(50),`profile` LONGTEXT ,`role` INT NOT NULL ,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(`user_id`))";
     if (!$mysqli->query($sql)) {
         return false;
     }

@@ -1,4 +1,8 @@
 <?php
+if (isset($_COOKIE['user'])) {
+    header("location:./home.php");
+    exit;
+}
 $password_err = "";
 ?>
 <!DOCTYPE html>
