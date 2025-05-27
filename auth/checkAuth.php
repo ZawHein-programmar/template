@@ -1,21 +1,20 @@
 <?php
-
 $user = json_decode($_COOKIE["user"], true);
 if (!$user) {
-    header("Location:../login.php");
+    header("Location:/Template/login.php");
     exit;
 } else {
     $url = $_SERVER['REQUEST_URI'];
     $arr = explode('/', $url);
     $code = 0;
-    if ($arr[1] == "Template") {
+    if ($arr[count($arr) - 2] !== "Template") {
         $role_name = $arr[count($arr) - 2];
         switch ($role_name) {
             case 'admin':
-                $code = 1;
+                $code = 2;
                 break;
             default:
-                $code = 2;
+                $code = 1;
                 break;
         }
     }
