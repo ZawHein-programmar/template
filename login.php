@@ -1,9 +1,42 @@
 <?php
+require_once("./storage/db.php");
+require_once("./storage/userCrud.php");
+
 if (isset($_COOKIE['user'])) {
     header("location:./home.php");
     exit;
 }
-$password_err = "";
+
+$email = $emailErr = "";
+$password = $passwordErr = "";
+$invalid = true;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if ($email == "") {
+        $emailErr = "Enter your email...";
+        $invalid = false;
+    }
+    if ($password == "") {
+        $passwordErr = "Enter your password...";
+        $invalid = false;
+    }
+    if ($invalid == true) {
+        $user = get_user_with_email($mysqli, $email);
+        if (!$user) {
+            $emailErr = "Incorrect email. Don't have account Please Sign up first";
+        } else {
+            if (password_verify($password, $user['password'])) {
+                setcookie("user", json_encode($user), time() + 60 * 60 * 24 * 30, "/");
+                header("Location:./home.php");
+            } else {
+                $passwordErr = "Wrong password.Try again!";
+            }
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,12 +75,13 @@ $password_err = "";
                 <div class="form-group mb-3">
                     <label for="email" class="form-label text-dark">Email</label>
                     <input type="email" class="form-control py-2" name="email" id="email" placeholder="Enter your email">
-                    <div class="text-danger" style="font-size:12px;"><?= $password_err ?></div>
+                    <div style="height: 20px; line-height: 20px;"><i class="text-danger text-sm-start"><?= $emailErr ?></i></div>
                 </div>
 
                 <div class="form-group mb-3">
                     <label for="password" class="form-label text-dark">Password</label>
                     <input type="password" class="form-control py-2" name="password" id="password" placeholder="Enter your password">
+                    <div style="height: 20px; line-height: 20px;"><i class="text-danger text-sm-start"><?= $passwordErr ?></i></div>
                 </div>
 
                 <div class="form-group mt-4 text-center">

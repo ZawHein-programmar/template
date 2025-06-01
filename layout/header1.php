@@ -1,3 +1,14 @@
+<?php
+$status = false;
+if (isset($_COOKIE['user'])) {
+    $status = true;
+}
+if (isset($_POST['logout'])) {
+    setcookie("user", '', -1, "/");
+    header('Location:./index.php');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -129,11 +140,15 @@
             align-items: center;
             justify-content: center;
         }
+
+        #profileDropdown::after {
+            display: none;
+        }
     </style>
 </head>
 
 <body>
-    <?php require_once 'layout/sidebar1.php'; ?>
+    <?php include_once('layout/sidebar1.php'); ?>
 
     <div class="content" id="content">
-        <?php require_once 'layout/navbar1.php'; ?>
+        <?php include_once('layout/navbar1.php'); ?>
