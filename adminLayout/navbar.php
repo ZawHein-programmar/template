@@ -31,8 +31,8 @@
                                 <i class="fas fa-user fs-3"></i>
                             </div>
                             <div class="ms-2">
-                                <a href="login.php" class="nav-link text-dark text-info">Sign in</a>
-                                <a href="register.php" class="nav-link text-dark text-info" style="margin-top: -20px !important;padding-top: -20px !important;">Sign up</a>
+                                <a href="../login.php" class="nav-link text-dark text-info">Sign in</a>
+                                <a href="../register.php" class="nav-link text-dark text-info" style="margin-top: -20px !important;padding-top: -20px !important;">Sign up</a>
                             </div>
                         </div>
                     </li>
@@ -43,7 +43,7 @@
                         <form method="post">
                             <div class="dropdown">
                                 <a class="navbar-brand dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="./assets/userProfile/profile.jpg" style="width: 60px; height: 60px; border-radius: 50%;" id="profileImage" alt="Image" class="ms-2">
+                                    <img src="../assets/userProfile/profile.jpg" style="width: 60px; height: 60px; border-radius: 50%;" id="profileImage" alt="Image" class="ms-2">
                                 </a>
 
                                 <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="profileDropdown">

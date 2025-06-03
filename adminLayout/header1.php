@@ -5,7 +5,7 @@ if (isset($_COOKIE['user'])) {
 }
 if (isset($_POST['logout'])) {
     setcookie("user", '', -1, "/");
-    header('Location:./index.php');
+    header('Location:../index.php');
 }
 
 ?>
@@ -148,7 +148,7 @@ if (isset($_POST['logout'])) {
 </head>
 
 <body>
-    <?php include_once('layout/sidebar1.php'); ?>
+    <?php include_once('../adminLayout/sidebar.php'); ?>
 
     <div class="content" id="content">
-        <?php include_once('layout/navbar1.php'); ?>
+        <?php include_once('../adminLayout/navbar.php'); ?>
