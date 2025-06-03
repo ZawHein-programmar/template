@@ -144,6 +144,11 @@ if (isset($_POST['logout'])) {
         #profileDropdown::after {
             display: none;
         }
+
+        .accordion-button {
+            box-shadow: none !important;
+            border: none !important;
+        }
     </style>
 </head>
 

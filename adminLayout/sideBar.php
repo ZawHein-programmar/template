@@ -1,19 +1,63 @@
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
 <div class="sidebar" id="sidebar">
-    <h4 class="text-center p-3">Sidebar</h4>
-    <ul class="nav flex-column p-2 sidebarNavBar mt-3">
-        <li class="nav-item"><a href="#" class="nav-link text-light fs-5 py-3">User</a></li>
-        <li class="nav-item"><a href="#" class="nav-link text-light fs-5 py-3">Product</a></li>
-        <li class="nav-item"><a href="#" class="nav-link text-light fs-5 py-3">Services</a></li>
-        <li class="nav-item"><a href="#" class="nav-link text-light fs-5 py-3">Contact</a></li>
-        <li class="nav-item dropdown">
-            <a href="#" class="nav-link text-light fs-5 py-3 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Services</a>
-            <ul class="dropdown-menu">
-                <li><a href="#" class="dropdown-item">Web Development</a></li>
-                <li><a href="#" class="dropdown-item">Graphic Design</a></li>
-                <li><a href="#" class="dropdown-item">SEO Optimization</a></li>
-            </ul>
-        </li>
-    </ul>
+    <div class="mt-4">
+        <h4 class="text-center">Sidebar</h4>
+        <div class="accordion accordion-flush mt-4" style="width:100% !important; padding: 0px !important;" id="sidebarAccordion">
+
+            <div class="accordion-item">
+                <h2 class="accordion-header py-2 bg-info text-white" id="headingOne">
+                    <button
+                        class="accordion-button collapsed bg-info text-white"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne"
+                        aria-expanded="false"
+                        aria-controls="collapseOne">
+                        User Management
+                    </button>
+                </h2>
+                <div
+                    id="collapseOne"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingOne"
+                    data-bs-parent="#sidebarAccordion">
+                    <div class="py-3 text-center border bg-light my-1">
+                        <a href="#" class="nav-link text-dark">View Products</a>
+                    </div>
+                    <div class="py-3 text-center border bg-light my-1">
+                        <a href="#" class="nav-link text-dark">View Products</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header py-2 bg-info text-white" id="headingTwo">
+                    <button
+                        class="accordion-button collapsed bg-info text-white"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseTwo"
+                        aria-expanded="false"
+                        aria-controls="collapseTwo">
+                        Product
+                    </button>
+                </h2>
+                <div
+                    id="collapseTwo"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingTwo"
+                    data-bs-parent="#sidebarAccordion">
+                    <div class="py-3 text-center border bg-light my-1">
+                        <a href="#" class="nav-link text-dark">View Products</a>
+                    </div>
+                    <div class="py-3 text-center border bg-light my-1">
+                        <a href="#" class="nav-link text-dark">View Products</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
