@@ -4,7 +4,7 @@ require_once '../storage/userCrud.php';
 
 if (isset($_GET['deleteId'])) {
     $deleteId = $_GET['deleteId'];
-    $status = delete_user($mysqli, $deleteId);
+    $status = delete_user($conn, $deleteId);
     if ($status == 1) {
         $message = "User successfully deleted";
     } else {
@@ -17,10 +17,10 @@ $page = isset($_GET['pageNo']) ? intval($_GET['pageNo']) : 1;
 $offset = ($page - 1) * $limit;
 $numberTitle = ($page * $limit) - $limit;
 
-$row = get_all_users($mysqli);
+$row = get_all_users($conn);
 $row_count = COUNT($row->fetch_all()); //get number of users
 $pagination_link = ceil($row_count / 10);
-$users = get_user_with_offset($mysqli, $offset, $limit);
+$users = get_user_with_offset($conn, $offset, $limit);
 ?>
 <div class="container">
     <?php if (isset($message)) { ?>

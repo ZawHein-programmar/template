@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $invalid = false;
     }
     if ($invalid == true) {
-        $user = get_user_with_email($mysqli, $email);
+        $user = get_user_with_email($conn, $email);
         if (!$user) {
             $emailErr = "Incorrect email. Don't have account Please Sign up first";
         } else {
