@@ -8,21 +8,21 @@
         </div>
 
 
-        <div class="desktop-search">
+        <!-- <div class="desktop-search">
             <form class="d-flex w-100">
                 <input class="form-control me-2" type="search" placeholder="Search">
                 <button class="btn btn-outline-dark" type="submit">Search</button>
             </form>
-        </div>
+        </div> -->
 
         <div class="desktop-nav-items d-flex align-items-center">
             <ul class="navbar-nav align-items-center">
-                <li class=" nav-item ms-3 me-3">
+                <!-- <li class=" nav-item ms-3 me-3">
                     <a href="#" class="nav-link text-dark cart-icon-container">
                         <i class="fas fa-shopping-cart me-1"></i> Cart
                         <span class="cart-badge">3</span>
                     </a>
-                </li>
+                </li> -->
 
                 <?php if (!$status) { ?>
                     <li class="nav-item d-inline-block">
@@ -61,11 +61,11 @@
     </div>
 </nav>
 
-<div class="search-container mobile-search">
+<!-- <div class="search-container mobile-search">
     <div class="container-fluid">
         <form class="d-flex w-100">
             <input class="form-control me-2" type="search" placeholder="Search">
             <button class="btn btn-outline-dark" type="submit">Search</button>
         </form>
     </div>
-</div>
+</div> -->

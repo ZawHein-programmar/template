@@ -1,8 +1,8 @@
 <?php
 $status = false;
-if (isset($_COOKIE['user'])) {
-    $status = true;
-}
+    if (isset($_COOKIE['user'])) {
+        $status = true;
+    }
 if (isset($_POST['logout'])) {
     setcookie("user", '', -1, "/");
     header('Location:./index.php');

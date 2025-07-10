@@ -4,53 +4,57 @@ $host = 'localhost';
 $username = 'root';
 $password = '';
 
-$mysql = new mysqli($host, $username, $password);
+$conn = new mysqli($host, $username, $password);
 
-if ($mysql->connect_errno) {
-    echo "Fail to connnect MYSQL" . $mysql->connect_error;
+if ($conn->connect_errno) {
+    echo "Fail to connnect conn" . $conn->connect_error;
     exit;
 }
 
-function create_database($mysql)
+function create_database($conn)
 {
     $sql = "CREATE DATABASE IF NOT EXISTS 
             `gym_management_system_zh`
             DEFAULT CHARACTER SET utf8mb4 
             COLLATE utf8mb4_general_ci";
 
-    if ($mysql->query($sql)) {
+    if ($conn->query($sql)) {
         return true;
     }
     return false;
 }
 
-create_database($mysql);
+create_database($conn);
 
-function select_db($mysql)
+function select_db($conn)
 {
-    if ($mysql->select_db("gym_management_system")) {
+    if ($conn->select_db("gym_management_system_zh")) {
         return true;
     }
     return false;
 }
 
-select_db($mysql);
-create_table($mysql);
+select_db($conn);
+create_table($conn);
 
-function create_table($mysql)
+function create_table($conn)
 {
     //user table
-    $user_sql = "CREATE TABLE IF NOT EXISTS `user`
-                (user_id INT AUTO_INCREMENT PRIMARY KEY,
-                username VARCHAR(100) NOT NULL,
-                email VARCHAR(100) NOT NULL UNIQUE,
-                password VARCHAR(100) NOT NULL ,
-                phone VARCHAR(50) NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                )";
+    $user_sql = "CREATE TABLE IF NOT EXISTS `user` (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    profile VARCHAR(255) DEFAULT NULL,
+    role ENUM('admin', 'user','staff') DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)";
 
-    if ($mysql->query($user_sql) === false) return false;
+
+    if ($conn->query($user_sql) === false) return false;
 
     //create member table
     $member_sql = "CREATE TABLE IF NOT EXISTS `member`
@@ -67,7 +71,7 @@ function create_table($mysql)
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     )";
 
-    if ($mysql->query($member_sql) === false) return false;
+    if ($conn->query($member_sql) === false) return false;
 
     //create trainer table
     $trainer_sql = "CREATE TABLE IF NOT EXISTS `trainer`
@@ -83,7 +87,7 @@ function create_table($mysql)
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                     )";
 
-    if ($mysql->query($trainer_sql) === false) return false;
+    if ($conn->query($trainer_sql) === false) return false;
 
     //create class table
     $class_sql = "CREATE TABLE IF NOT EXISTS `class`
@@ -94,7 +98,7 @@ function create_table($mysql)
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )";
 
-    if ($mysql->query($class_sql) === false) return false;
+    if ($conn->query($class_sql) === false) return false;
 
     //create class_schedules table
     $schedule_sql = "CREATE TABLE IF NOT EXISTS `class_schedule`
@@ -107,7 +111,7 @@ function create_table($mysql)
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )";
 
-    if ($mysql->query($schedule_sql) === false) return false;
+    if ($conn->query($schedule_sql) === false) return false;
 
     //create class_trainer tabel
     $class_trainer_sql = "CREATE TABLE IF NOT EXISTS `class_trainer`
@@ -119,7 +123,7 @@ function create_table($mysql)
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )";
 
-    if ($mysql->query($class_trainer_sql) === false) return false;
+    if ($conn->query($class_trainer_sql) === false) return false;
 
     //create member_class table
     $member_class_sql = "CREATE TABLE IF NOT EXISTS `member_class`
@@ -131,7 +135,7 @@ function create_table($mysql)
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )";
 
-    if ($mysql->query($member_class_sql) === false) return false;
+    if ($conn->query($member_class_sql) === false) return false;
 
     //attendance table
     $attendance_sql = "CREATE TABLE IF NOT EXISTS `attendance`
@@ -141,7 +145,7 @@ function create_table($mysql)
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )";
 
-    if ($mysql->query($attendance_sql) === false) return false;
+    if ($conn->query($attendance_sql) === false) return false;
 
     //create discount table
     $discont_sql = "CREATE TABLE IF NOT EXISTS `discount`
@@ -152,7 +156,7 @@ function create_table($mysql)
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )";
 
-    if ($mysql->query($discont_sql) === false) return false;
+    if ($conn->query($discont_sql) === false) return false;
 
     //discount details table
     $discont_detail_sql = "CREATE TABLE IF NOT EXISTS `discount_detail`
@@ -164,7 +168,7 @@ function create_table($mysql)
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )";
 
-    if ($mysql->query($discont_detail_sql) === false) return false;
+    if ($conn->query($discont_detail_sql) === false) return false;
 
     //payment table
     $payment_sql = "CREATE TABLE IF NOT EXISTS `payment`
@@ -179,7 +183,7 @@ function create_table($mysql)
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )";
 
-    if ($mysql->query($payment_sql) === false) return false;
+    if ($conn->query($payment_sql) === false) return false;
 
 
     // image table create
@@ -192,5 +196,5 @@ function create_table($mysql)
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )";
 
-    if ($mysql->query($image_sql) === false) return false;
+    if ($conn->query($image_sql) === false) return false;
 }

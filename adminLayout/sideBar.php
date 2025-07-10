@@ -2,7 +2,10 @@
 
 <div class="sidebar" id="sidebar">
     <div class="mt-4">
-        <h4 class="text-center">Sidebar</h4>
+        <h4 class="text-center"> <?php if (isset($_COOKIE['user'])) {
+        $user = json_decode($_COOKIE['user'], true); 
+        echo  ucwords($user['user_name']) . ' (' .$user['role'] .')';
+    } ?></h4>
         <div class="accordion accordion-flush mt-4" style="width:100% !important; padding: 0px !important;" id="sidebarAccordion">
 
             <div class="accordion-item">

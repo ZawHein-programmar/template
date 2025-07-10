@@ -22,6 +22,8 @@ $row_count = COUNT($row->fetch_all()); //get number of users
 $pagination_link = ceil($row_count / 10);
 $users = get_user_with_offset($conn, $offset, $limit);
 ?>
+<?php
+require_once('../adminLayout/header1.php'); ?>
 <div class="container">
     <?php if (isset($message)) { ?>
         <div class="alert alert-warning alert-dismissible fade mx-auto show w-75 mt-2 mb-2" role="alert">
@@ -77,12 +79,12 @@ $users = get_user_with_offset($conn, $offset, $limit);
                                 <td><a href="#"><?= $row['profile'] ?></a></td>
                                 <td>
                                     <button class="btn btn-sm btn-danger me-1">Edit</button>
-                                    <?php if ($row['email'] == $current_user['email']) { ?>
+                                    <!-- <?php if ($row['email'] == $current_user['email']) { ?>
                                     <?php } else { ?>
                                         <button class="btn btn-sm btn-danger deleteUser" data-value="<?= $row['user_id'] ?>"
                                             data-bs-toggle="modal" data-bs-target="#deleteModal"><i
                                                 class="fa fa-trash"></i></button>
-                                    <?php } ?>
+                                    <?php } ?> -->
                                 </td>
                             </tr>
                         <?php
@@ -137,3 +139,4 @@ $users = get_user_with_offset($conn, $offset, $limit);
         </div>
     </div>
 </div>
+<?php include_once('../adminLayout/footer.php'); ?>

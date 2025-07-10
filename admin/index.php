@@ -1,7 +1,7 @@
 <?php
 $current_user = json_decode($_COOKIE["user"], true);
 $user_role = $current_user['role'] ?? 0;
-if ($user_role != 2) {
+if ($user_role != "admin") {
     header("location:../home.php");
     exit;
 }

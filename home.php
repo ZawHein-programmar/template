@@ -1,6 +1,8 @@
 <?php require_once("./auth/checkAuth.php");
-if ($user['role'] == 1) {
+if ($user['role'] == 'staff') {
     header("location:./user/index.php");
-} elseif ($user['role'] == 2) {
+} elseif ($user['role'] == 'admin') {
     header("location:./admin/index.php");
+} elseif($user['role'] == 'user'){
+    header("location:./index.php");
 }
