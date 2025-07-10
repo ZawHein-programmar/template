@@ -1,5 +1,5 @@
 <?php
-function save_user($conn,  $name,  $email,  $password,  $address = "",  $phone = "",  $profile = "", int $role = 2): mixed
+function save_user($mysqli,  $name,  $email,  $password,  $address = "",  $phone = "",  $profile = "", int $role = 1): mixed
 {
     $sql = "INSERT INTO `user` (`user_name`, `email`, `password`, `address`, `phone`, `profile`, `role`) VALUES ('$name', '$email', '$password', '$address', '$phone', '$profile', $role)";
     return $conn->query($sql);
