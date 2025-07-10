@@ -55,9 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if ($invalid) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $status = save_user($mysqli, $name, $email, $hashedPassword);
+        $status = save_user($conn, $name, $email, $hashedPassword);
         if ($status) {
-            $user = get_user_with_email($mysqli, $email);
+            $user = get_user_with_email($conn, $email);
             setcookie("user", json_encode($user), time() + 60 * 60 * 24 * 30, "/");
             header("Location:./home.php");
         } else {
