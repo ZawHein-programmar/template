@@ -60,8 +60,8 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
                 if (!file_exists($folder)) {
                     mkdir($folder, 0755, true); // Create folder with permission
                 }
-                var_dump("helo");
-                die();
+                // var_dump("helo");
+                // die();
                 $currentName = date("Ymd_His") . "_" . $val;
                 $fullPath = $folder . "/" . $currentName; // Full path to save image
 

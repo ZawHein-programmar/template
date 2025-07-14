@@ -44,3 +44,9 @@ function insertData($table, $mysql, $data)
 
     return $mysql->query($sql);
 }
+
+function getDataWithOffset($table, $mysql, $offset, $limit)
+{
+    $sql = "SELECT * FROM `$table` LIMIT $limit OFFSET $offset";
+    return $mysql->query($sql);
+}

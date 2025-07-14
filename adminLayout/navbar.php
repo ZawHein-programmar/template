@@ -1,10 +1,12 @@
-<nav class="navbar navbar-expand bg-info">
+<nav class="navbar navbar-expand">
     <div class="container-fluid navbar-content">
         <div class="d-flex align-items-center">
             <a class="navbar-brand" href="#">
-                <i class="fas fa-bars toggle-icon ms-2 text-dark" id="toggleIcon"></i>
+                <i class="fas fa-bars toggle-icon ms-2" id="toggleIcon"></i>
             </a>
-            <h3 class="navbar-brand ms-lg-3 p-0 m-0"><b>My Shop</b></h3>
+            <h3 class="navbar-brand ms-lg-3 p-0 m-0">
+                <i class="fas fa-dumbbell me-2"></i><b>Gym Management Team</b>
+            </h3>
         </div>
 
 
@@ -27,12 +29,12 @@
                 <?php if (!$status) { ?>
                     <li class="nav-item d-inline-block">
                         <div class="d-flex align-items-center">
-                            <div class="bg-info rounded-circle d-flex justify-content-center align-items-center" style="width: 30px; height: 40px;">
-                                <i class="fas fa-user fs-3"></i>
+                            <div class="bg-glass rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                                <i class="fas fa-user fs-4"></i>
                             </div>
                             <div class="ms-2">
-                                <a href="../login.php" class="nav-link text-dark text-info">Sign in</a>
-                                <a href="../register.php" class="nav-link text-dark text-info" style="margin-top: -20px !important;padding-top: -20px !important;">Sign up</a>
+                                <a href="../login.php" class="nav-link text-info">Sign in</a>
+                                <a href="../register.php" class="nav-link text-info" style="margin-top: -20px !important;padding-top: -20px !important;">Sign up</a>
                             </div>
                         </div>
                     </li>

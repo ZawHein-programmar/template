@@ -7,7 +7,7 @@ $password = '';
 $conn = new mysqli($host, $username, $password);
 
 if ($conn->connect_errno) {
-    echo "Fail to connnect conn" . $conn->connect_error;
+    echo "Fail to mysqlnect mysql" . $conn->connect_error;
     exit;
 }
 
