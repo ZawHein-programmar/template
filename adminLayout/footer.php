@@ -37,6 +37,32 @@
         }
     });
 
+    // Add smooth animations to page elements
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate cards on load
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            setTimeout(() => {
+                card.style.transition = 'all 0.6s ease-out';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+
+        // Add hover effects to table rows
+        const tableRows = document.querySelectorAll('.table tbody tr');
+        tableRows.forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.01)';
+            });
+            row.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    });
+
     let deleteUser = $(".deleteUser");
     let deleteBtn = $("#deleteBtn");
     let closeBtn = $("#closeBtn");

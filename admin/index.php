@@ -12,7 +12,8 @@ require_once('../adminLayout/header1.php'); ?>
 
 <div class="container-fluid mt-4">
     <?php
-    require_once('./user.php'); ?>
+    require_once('./user.php');
+    ?>
 </div>
 
 <?php include_once('../adminLayout/footer.php'); ?>
