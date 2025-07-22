@@ -63,8 +63,6 @@ require_once('../adminLayout/header1.php'); ?>
                             <th scope="col">Gender</th>
                             <th scope="col">Bio</th>
                             <th scope="col">join_date</th>
-                            <th scope="col">created_at</th>
-                            <th scope="col">updated_at</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -79,12 +77,14 @@ require_once('../adminLayout/header1.php'); ?>
                                     <td><?= $show['specialty'] ?></td>
                                     <td><?= $show['gender'] ?></td>
                                     <td><?= $show['bio'] ?></td>
-                                    <td><?= date("Y-m-d g:i:s A", strtotime($show['join_date'])) ?></td>
-                                    <td><?= date("Y-m-d g:i:s A", strtotime($show['updated_at'])) ?></td>
-                                    <td><?= date("Y-m-d g:i:s A", strtotime($show['created_at'])) ?></td>
+                                    <td><?= date("d F Y", strtotime($show['join_date'])) ?></td>
                                     <td>
-                                        <a href="<?= '../admin/trainer_edit.php?id=' . $show['trainer_id'] ?>" class="btn btn-sm btn-primary">Edit</a>
-                                        <button data-id="<?= $show['trainer_id'] ?>" class="btn btn-sm btn-danger delete_btn">Delete</button>
+                                        <a href="<?= '../admin/trainer_edit.php?id=' . $show['trainer_id'] ?>" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-edit me-1"></i>
+                                        </a>
+                                        <button data-id="<?= $show['trainer_id'] ?>" class="btn btn-sm btn-danger delete_btn">
+                                            <i class="fas fa-trash me-1"></i>
+                                        </button>
                                     </td>
                                 </tr>
                         <?php }
@@ -96,24 +96,6 @@ require_once('../adminLayout/header1.php'); ?>
         </div>
     </div>
 </div>
-<!-- <div class="modal modal-md" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog w-100">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirmation Message</h5>
-                <button type="button" class="btn-close btn-sm" id="closeBtn" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to delete..</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-sm btn-primary" id="delete_btn">OK</button>
-            </div>
-        </div>
-    </div>
-</div> -->
 
 <?php include_once('../adminLayout/footer.php'); ?>
 

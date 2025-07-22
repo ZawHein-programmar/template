@@ -12,7 +12,7 @@ require '../storage/central_function.php';
 // $page = isset($_GET['pageNo']) ? intval($_GET['pageNo']) : 1;
 // $offset = ($page - 1) * $limit;
 // $numberTitle = ($page * $limit) - $limit;
-
+$success = $_GET['success'] ? $_GET['success']  : '';
 $row = select_data('discount', $conn, '*');
 // var_dump($row);
 // die();
@@ -51,6 +51,11 @@ require_once('../adminLayout/header1.php'); ?>
         </div>
         <div class="card-body">
             <!-- Add table-responsive class -->
+            <?php if ($success !== '') { ?>
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle me-2"></i><?= $success ?>
+                </div>
+            <?php } ?>
             <div class="table-responsive">
                 <table class="table table-sm table-striped table-bordered">
                     <thead>
@@ -58,8 +63,6 @@ require_once('../adminLayout/header1.php'); ?>
                             <th scope="col">No.</th>
                             <th scope="col">Package Name</th>
                             <th scope="col">Percentage</th>
-                            <th scope="col">created_at</th>
-                            <th scope="col">updated_at</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -70,8 +73,6 @@ require_once('../adminLayout/header1.php'); ?>
                                     <td><?= $show['discount_id'] ?></td>
                                     <td><?= $show['name_of_package'] ?></td>
                                     <td><?= $show['percentage'] ?></td>
-                                    <td><?= date("Y-m-d g:i:s A", strtotime($show['updated_at'])) ?></td>
-                                    <td><?= date("Y-m-d g:i:s A", strtotime($show['created_at'])) ?></td>
                                     <td>
                                         <a href="<?= '../admin/discount_edit.php?id=' . $show['discount_id'] ?>" class="btn btn-sm btn-primary">Edit</a>
                                         <button data-id="<?= $show['trainer_id'] ?>" class="btn btn-sm btn-danger delete_btn">Delete</button>

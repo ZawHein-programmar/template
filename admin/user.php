@@ -66,7 +66,7 @@ require_once('../adminLayout/header1.php'); ?>
                         while ($row = $users->fetch_assoc()) {
                         ?>
                             <tr>
-                                <th scope="row"><?= $numberTitle ?></th>
+                                <td scope="row"><?= $numberTitle ?></td>
                                 <td><?= $row['user_name'] ?></td>
                                 <td><?= $row['email'] ?></td>
                                 <td><?= $row['phone'] ?></td>

@@ -25,7 +25,7 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
             'class_id' => $class_id,
             'day_of_week' => $day_of_week,
             'start_time' => $start_time,
-            'end_time' => $end_time,
+            'end_time' => $end_time
         ];
 
         $result = insertData('class_schedule', $mysql, $data);

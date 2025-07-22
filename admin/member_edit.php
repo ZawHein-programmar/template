@@ -29,9 +29,6 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
         $url = "./member_list.php?error=Id Not Found";
         header("Location: $url");
     }
-    // } else {
-    //     $url = "./member_list.php?error=Id now Found";
-    //     header("Location: $url");
 }
 
 

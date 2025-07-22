@@ -1,10 +1,10 @@
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-<div class="sidebar" id="sidebar">
+<div class="sidebar liquid-glass-sidebar" id="sidebar">
     <div class="mt-4">
         <div class="text-center mb-4">
             <div class="profile-avatar mb-3">
-                <img src="../assets/userProfile/profile.jpg" alt="Profile" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.2);">
+                <img src="../assets/userProfile/profile.jpg" alt="Profile" style="width: 80px; height: 80px; border-radius: 50%;">
             </div>
             <h5 class="mb-1"> <?php if (isset($_COOKIE['user'])) {
                                     $user = json_decode($_COOKIE['user'], true);
@@ -15,11 +15,35 @@
                                                     echo  ucwords($user['role']);
                                                 } ?></span>
         </div>
-        <div class="accordion accordion-flush mt-4" style="width:100% !important; padding: 0px !important;" id="sidebarAccordion">
-
+        <div class="accordion accordion-flush mt-4" id="sidebarAccordion">
 
             <div class="accordion-item">
-                <h2 class="accordion-header py-2" id="headingOne">
+                <h2 class="accordion-header " id="headingDashboard">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseDashboard"
+                        aria-expanded="false"
+                        aria-controls="collapseDashboard">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                    </button>
+                </h2>
+                <div
+                    id="collapseDashboard"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingDashboard"
+                    data-bs-parent="#sidebarAccordion">
+                    <div class="py-3 text-center my-1">
+                        <a href="../admin/index.php" class="nav-link" title="Dashboard">
+                            <i class="fas fa-home"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header " id="headingOne">
                     <button
                         class="accordion-button collapsed"
                         type="button"
@@ -36,20 +60,18 @@
                     aria-labelledby="headingOne"
                     data-bs-parent="#sidebarAccordion">
                     <div class="py-3 text-center my-1">
-                        <a href="trainer_add.php" class="nav-link">
-                            <i class="fas fa-plus me-2"></i>New Trainer Add
+                        <a href="trainer_add.php" class="nav-link ajax-link" title="Add New Trainer">
+                            <i class="fas fa-user-plus"></i>
                         </a>
-                    </div>
-                    <div class="py-3 text-center my-1">
-                        <a href="trainer_list.php" class="nav-link">
-                            <i class="fas fa-list me-2"></i>Trainer List
+                        <a href="trainer_list.php" class="nav-link" title="View Trainer List">
+                            <i class="fas fa-list"></i>
                         </a>
                     </div>
                 </div>
             </div>
 
             <div class="accordion-item">
-                <h2 class="accordion-header py-2" id="headingTwo">
+                <h2 class="accordion-header " id="headingTwo">
                     <button
                         class="accordion-button collapsed"
                         type="button"
@@ -66,20 +88,18 @@
                     aria-labelledby="headingTwo"
                     data-bs-parent="#sidebarAccordion">
                     <div class="py-3 text-center my-1">
-                        <a href="member_add.php" class="nav-link">
-                            <i class="fas fa-user-plus me-2"></i>New Member Add
+                        <a href="member_add.php" class="nav-link" title="Add New Member">
+                            <i class="fas fa-user-plus"></i>
                         </a>
-                    </div>
-                    <div class="py-3 text-center my-1">
-                        <a href="member_list.php" class="nav-link">
-                            <i class="fas fa-list me-2"></i>Member List
+                        <a href="member_list.php" class="nav-link" title="View Member List">
+                            <i class="fas fa-list"></i>
                         </a>
                     </div>
                 </div>
             </div>
 
             <div class="accordion-item">
-                <h2 class="accordion-header py-2" id="headingThree">
+                <h2 class="accordion-header " id="headingThree">
                     <button
                         class="accordion-button collapsed"
                         type="button"
@@ -96,20 +116,18 @@
                     aria-labelledby="headingThree"
                     data-bs-parent="#sidebarAccordion">
                     <div class="py-3 text-center my-1">
-                        <a href="class_create.php" class="nav-link">
-                            <i class="fas fa-plus me-2"></i>Class Create
+                        <a href="class_create.php" class="nav-link" title="Create New Class">
+                            <i class="fas fa-plus"></i>
                         </a>
-                    </div>
-                    <div class="py-3 text-center my-1">
-                        <a href="class_list.php" class="nav-link">
-                            <i class="fas fa-list me-2"></i>Class List
+                        <a href="class_list.php" class="nav-link" title="View Class List">
+                            <i class="fas fa-list"></i>
                         </a>
                     </div>
                 </div>
             </div>
 
             <div class="accordion-item">
-                <h2 class="accordion-header py-2" id="headingFour">
+                <h2 class="accordion-header " id="headingFour">
                     <button
                         class="accordion-button collapsed"
                         type="button"
@@ -117,7 +135,7 @@
                         data-bs-target="#collapseFour"
                         aria-expanded="false"
                         aria-controls="collapseFour">
-                        <i class="fas fa-percentage me-2"></i>Discount information
+                        <i class="fas fa-percentage me-2"></i>Discount
                     </button>
                 </h2>
                 <div
@@ -126,13 +144,66 @@
                     aria-labelledby="headingFour"
                     data-bs-parent="#sidebarAccordion">
                     <div class="py-3 text-center my-1">
-                        <a href="discount_create.php" class="nav-link">
-                            <i class="fas fa-plus me-2"></i>Discount Create
+                        <a href="discount_create.php" class="nav-link" title="Create Discount Package">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <a href="discount_list.php" class="nav-link" title="View Discount List">
+                            <i class="fas fa-list"></i>
                         </a>
                     </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header " id="headingFive">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseFive"
+                        aria-expanded="false"
+                        aria-controls="collapseFive">
+                        <i class="fas fa-tag me-2"></i>Discount Detail
+                    </button>
+                </h2>
+                <div
+                    id="collapseFive"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingFive"
+                    data-bs-parent="#sidebarAccordion">
                     <div class="py-3 text-center my-1">
-                        <a href="discount_list.php" class="nav-link">
-                            <i class="fas fa-list me-2"></i>Discount Package List
+                        <a href="discount_detail_create.php" class="nav-link" title="Create Discount Package">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <a href="discount_detail_list.php" class="nav-link" title="View Discount List">
+                            <i class="fas fa-list"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header " id="headingSix">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseSix"
+                        aria-expanded="false"
+                        aria-controls="collapseSix">
+                        <i class="fas fa-credit-card me-2"></i>Payment
+                    </button>
+                </h2>
+                <div
+                    id="collapseSix"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingSix"
+                    data-bs-parent="#sidebarAccordion">
+                    <div class="py-3 text-center my-1">
+                        <a href="payment.php" class="nav-link" title="Create Payment">
+                            <i class="fas fa-cart-shopping"></i>
+                        </a>
+                        <a href="payment_list.php" class="nav-link" title="View Payment List">
+                            <i class="fas fa-list"></i>
                         </a>
                     </div>
                 </div>

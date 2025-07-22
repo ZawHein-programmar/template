@@ -18,6 +18,22 @@ $description = '';
 $duration = '';
 
 $success = $_GET['success'] ? $_GET['success']  : '';
+if (isset($_GET['id']) && $_GET['id'] !== '') {
+    $id = $_GET['id'];
+    $selectData = select_data('class', $conn, "*", "WHERE `class_id`='$id'");
+    $select_img = select_data('image', $conn, '*', "WHERE `type`='class' AND `target_id`='$id'");
+
+    if ($selectData->num_rows > 0) {
+        $data = $selectData->fetch_assoc();
+        $img_data = $select_img->fetch_all(MYSQLI_ASSOC);
+        $class_name = $data['class_name'];
+        $description = $data['description'];
+    } else {
+        $url = "./class_list.php?error=Id Not Found";
+        header("Location: $url");
+    }
+}
+
 try {
     if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $class_name = $_POST['name'];
@@ -52,7 +68,10 @@ try {
                     'class_name' => $class_name,
                     'description' => $description
                 ];
-                $result = insertData('class', $conn, $data);
+                $where = [
+                    'class_id' => $id
+                ];
+                $result = updateData('class', $conn, $data, $where);
 
                 $class_id = mysqli_insert_id($conn);
 
@@ -104,8 +123,6 @@ try {
                 if ($result && $image_success) {
                     mysqli_commit($conn);
                     $success = "Class created successfully!";
-                    header("Location: class_list.php?success=" . urlencode($success));
-                    exit;
                 } else {
                     // Delete uploaded files if transaction fails
                     foreach ($uploaded_files as $file) {
@@ -116,8 +133,6 @@ try {
                     mysqli_rollback($conn);
                     $error = true;
                     $name_error = "Database insert failed. Transaction rolled back. MySQL error: " . mysqli_error($conn);
-                    header("Location: class_create.php?error=" . urlencode($name_error));
-                    exit;
                 }
             } catch (Exception $e) {
                 mysqli_rollback($conn);
@@ -134,7 +149,6 @@ try {
 
 <?php
 require_once('../adminLayout/header1.php'); ?>
-
 
 <div class="container mt-4 fade-in-up">
     <div class="card">

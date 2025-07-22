@@ -50,7 +50,7 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
         var_dump($result);
 
         if ($result) {
-            $url =  '../admin/discount_create.php?success=Created Success';
+            $url =  '../admin/discount_list.php?success=Created Success';
             header("Location: $url");
             exit;
         } else {
@@ -67,23 +67,77 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
 <?php
 require_once('../adminLayout/header1.php'); ?>
 
-<div class="container-fluid mt-5" style="width: 50%; margin: 0px auto;">
-    <div class="card-body pt-5">
-        <h3>Discount Create</h3>
+<div class="container mt-4 fade-in-up">
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="fas fa-percentage me-2"></i>Create Discount Package</h3>
+        </div>
+        <div class="card-body">
+            <form class="mt-3" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name_of_package" class="form-label">
+                            <i class="fas fa-tag me-2"></i>Package Name
+                        </label>
+                        <input type="text" class="form-control" id="name_of_package" name="name_of_package" value="<?= $name_of_package ?>" placeholder="Enter package name">
+                        <?php if (isset($name_error) && $name_error !== "Success create package.") { ?>
+                            <div class="text-danger small mt-1"><?= $name_error ?></div>
+                        <?php } ?>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="percentage" class="form-label">
+                            <i class="fas fa-percent me-2"></i>Discount Percentage
+                        </label>
+                        <input type="number" class="form-control" id="percentage" name="percentage" value="<?= $percentage ?>" placeholder="Enter discount percentage" min="0" max="100" step="0.01">
+                        <div class="form-text">Enter percentage between 0-100</div>
+                        <?php if (isset($percentage_error) && $percentage_error) { ?>
+                            <div class="text-danger small mt-1"><?= $percentage_error ?></div>
+                        <?php } ?>
+                    </div>
+                </div>
 
-        <form class="mt-5 mb-5 login-input" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
-            <div class="form-group">
-                <input type="text" class="form-control" name="name_of_package" placeholder="Package Name">
-                <label for="name_of_package" class="text-danger"><?= $name_of_package_error ?></label>
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" name="percentage" placeholder="Percentage">
-                <label for="percentage" class="text-danger"><?= $percentage_error ?></label>
-            </div>
-            <input type="hidden" name="form_sub" value="1">
-            <button class="btn btn-dark login-form__btn submit w-100">Submit</button>
-        </form>
+                <input type="hidden" name="form_sub" value="1">
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-save me-2"></i>Create Discount Package
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 <?php include_once('../adminLayout/footer.php'); ?>
+
+<script>
+    // Add success message handling
+    <?php if (isset($_GET['success'])) { ?>
+        Swal.fire({
+            title: 'Success!',
+            text: '<?= $_GET['success'] ?>',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdrop: 'rgba(0, 0, 0, 0.3)',
+            backdropFilter: 'blur(10px)',
+            customClass: {
+                popup: 'glass-popup'
+            }
+        });
+    <?php } ?>
+
+    <?php if (isset($_GET['error'])) { ?>
+        Swal.fire({
+            title: 'Error!',
+            text: '<?= $_GET['error'] ?>',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdrop: 'rgba(0, 0, 0, 0.3)',
+            backdropFilter: 'blur(10px)',
+            customClass: {
+                popup: 'glass-popup'
+            }
+        });
+    <?php } ?>
+</script>

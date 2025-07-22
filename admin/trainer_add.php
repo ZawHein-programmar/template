@@ -107,7 +107,7 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
         // die();
 
         if ($result) {
-            header("Location: ../admin/trainer_add.php?success=Successfully inserted");
+            header("Location: ../admin/trainer_list.php?success=Successfully inserted");
             exit;
         } else {
             header("Location: ../admin/trainer_add.php?error=Error in insertion");

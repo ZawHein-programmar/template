@@ -5,7 +5,7 @@
                 <i class="fas fa-bars toggle-icon ms-2" id="toggleIcon"></i>
             </a>
             <h3 class="navbar-brand ms-lg-3 p-0 m-0">
-                <i class="fas fa-dumbbell me-2"></i><b>Gym Management Team</b>
+                <i class="fas fa-dumbbell me-2"></i><b>Gym Fit Teams</b>
             </h3>
         </div>
 
