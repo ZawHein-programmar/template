@@ -44,7 +44,7 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
 
         if ($result) {
             // $url = $admin_base_url . 'add_member.php?success=Register Success';
-            header("Location: ../admin/discount_detail_create.php?success=Successfully inserted");
+            header("Location: ../admin/discount_detail_list.php?success=Successfully inserted");
             exit;
         } else {
             // $url = $admin_base_url . 'add_member.php?error=Error In Insertion';
@@ -61,10 +61,15 @@ require_once('../adminLayout/header1.php'); ?>
 <!-- Flatpickr CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+<div class="d-flex justify-content-end mt-3">
+    <button onclick="window.history.back()" class="btn btn-glass">
+        <i class="fa-solid fa-arrow-left me-2"></i>Back
+    </button>
+</div>
 <div class="container mt-4 fade-in-up">
-    <div class="card">
-        <div class="card-header">
-            <h3><i class="fas fa-user-plus me-2"></i>Discount Detail Create</h3>
+    <div class="card" style="background: var(--glass-bg); border-radius: 20px; box-shadow: var(--glass-shadow); border: 1.5px solid var(--glass-border); overflow: hidden;">
+        <div class="card-header" style="background: transparent; border-bottom: 1px solid rgba(255,255,255,0.12);">
+            <h3><i class="fas fa-user-plus me-2" style="color: var(--text-primary); font-weight: 600;"></i>Discount Detail Create</h3>
         </div>
         <div class="card-body">
             <form class="mt-3" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
@@ -87,7 +92,7 @@ require_once('../adminLayout/header1.php'); ?>
                             <i class="fas fa-calendar-alt me-2"></i>Start Date
                         </label>
                         <input type="text" class="form-control flatpickr-input" id="start_date" name="start_date" value="<?= $start_date ?>" placeholder="Select start date" readonly>
-                        <div class="form-text">Click to select date of birth</div>
+                        <div class="form-text">Click to select start date</div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="join_date" class="form-label">
@@ -123,7 +128,8 @@ require_once('../adminLayout/header1.php'); ?>
         allowInput: false,
         clickOpens: true,
         disableMobile: false,
-        static: true
+        static: false,
+        position: "above"
     });
 
     // Initialize Flatpickr for Join Date
@@ -134,7 +140,8 @@ require_once('../adminLayout/header1.php'); ?>
         allowInput: false,
         clickOpens: true,
         disableMobile: false,
-        static: true
+        static: false,
+        position: "above"
     });
 
     // Add success message handling

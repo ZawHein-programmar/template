@@ -10,7 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 JOIN member m ON mc.`member_id` = m.`member_id` 
                 JOin class_trainer ct on mc.`class_trainer_id` = ct.`class_trainer_id` 
                 JOIN class c on `ct`.`class_id` = c.class_id 
-                JOIn trainer t on ct.`trainer_id` = t.`trainer_id` WHERE py.`payment_id` = '$payment_id';";
+                JOIn trainer t on ct.`trainer_id` = t.`trainer_id` 
+                join discount_detail dd on py.`discount_detail_id` = dd.`discount_detail_id`
+                join discount d on dd.`discount_id` = d.`discount_id`
+                WHERE py.`payment_id` = '$payment_id'";
         $result = $conn->query($sql);
 
         if ($result && $result->num_rows > 0) {

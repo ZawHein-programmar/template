@@ -100,16 +100,21 @@ require_once('../adminLayout/header1.php'); ?>
 <!-- Flatpickr CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+<div class="d-flex justify-content-end mt-3">
+    <button onclick="window.history.back()" class="btn btn-glass">
+        <i class="fa-solid fa-arrow-left me-2"></i>Back
+    </button>
+</div>
 <div class="container mt-4 fade-in-up">
-    <div class="card">
-        <div class="card-header">
+    <div class="card" style="background: var(--glass-bg); border-radius: 20px; box-shadow: var(--glass-shadow); border: 1.5px solid var(--glass-border); overflow: hidden;">
+        <div class="card-header" style="background: transparent; border-bottom: 1px solid rgba(255,255,255,0.12);">
             <h3><i class="fas fa-calendar-alt me-2"></i>Create Payment</h3>
         </div>
         <div class="card-body">
             <form class="mt-3" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
                 <?php if ($success !== '') { ?>
                     <div class="alert alert-success">
-                        <i class="fas fa-check-circle me-2"></i><?= $success ?>
+                        <i class="fas fa-check-circle me-2" style="color: var(--text-primary); font-weight: 600;"></i><?= $success ?>
                     </div>
                 <?php } ?>
                 <div class="row">
@@ -255,7 +260,7 @@ require_once('../adminLayout/header1.php'); ?>
 
             if (percent > 0) {
                 let discounted = originalPrice - (originalPrice * (percent / 100));
-                amountInput.val(discounted.toFixed(2));
+                amountInput.val(Math.ceil(discounted.toFixed(2)));
             } else {
                 amountInput.val(originalPrice);
             }

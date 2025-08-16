@@ -1,13 +1,13 @@
 <?php
 $user = json_decode($_COOKIE["user"], true);
 if (!$user) {
-    header("Location:/Template/login.php");
+    header("Location:/GYM/login.php");
     exit;
 } else {
     $url = $_SERVER['REQUEST_URI'];
     $arr = explode('/', $url);
     $code = 0;
-    if ($arr[count($arr) - 2] !== "Template") {
+    if ($arr[count($arr) - 2] !== "GYM") {
         $role_name = $arr[count($arr) - 2];
         switch ($role_name) {
             case 'admin':
@@ -26,5 +26,5 @@ if (!$user) {
 
 if (isset($_POST["logout"])) {
     setcookie("user", "", -1, "/");
-    header("location:./index.php");
+    header("location:./login.php");
 }

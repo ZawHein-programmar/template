@@ -12,21 +12,20 @@ $limit = 5;
 $page = isset($_GET['pageNo']) ? intval($_GET['pageNo']) : 1;
 $offset = ($page - 1) * $limit;
 $numberTitle = ($page * $limit) - $limit;
-
 $success = $_GET['success'] ? $_GET['success']  : '';
-$row = getDataWithOffset('class_trainer', $conn, $offset, $limit);
+$row = getDataWithOffset('discount_detail', $conn, $offset, $limit);
 
-$total_result = select_data('class_trainer', $conn, 'COUNT(*) AS total');
+$total_result = select_data('discount_detail', $conn, 'COUNT(*) AS total');
 $total_row = $total_result->fetch_assoc();
 $row_count = $total_row['total'];
 $pagination_link = ceil($row_count / $limit);
 
 $delete_id = isset($_GET['delete_id']) ?  $_GET['delete_id'] : '';
 if ($delete_id !== '') {
-    $res = deleteData('class', $conn, "class_trainer_id=$delete_id");
+    $res = deleteData('discount_detail', $conn, "discount_detail_id=$delete_id");
 
     if ($res) {
-        header("Location: ../admin/class_trainer_list.php?success=Successfully deleted");
+        header("Location: ../admin/discount_detail_list.php?success=Successfully deleted");
         exit;
     }
 }
@@ -43,16 +42,17 @@ if ($delete_id !== '') {
 <?php
 require_once('../adminLayout/header1.php'); ?>
 
+
 <div class="d-flex justify-content-end mt-3">
     <button onclick="window.history.back()" class="btn btn-glass">
         <i class="fa-solid fa-arrow-left me-2"></i>Back
     </button>
 </div>
-<div class="container mt-4 fade-in-up">
+<div class="container mt-4">
 
     <div class="card text-center" style="background: var(--glass-bg); border-radius: 20px; box-shadow: var(--glass-shadow); border: 1.5px solid var(--glass-border); overflow: hidden;">
         <div class="card-header" style="background: transparent; border-bottom: 1px solid rgba(255,255,255,0.12);">
-            <h3><i class="fas fa-users me-2" style="color: var(--text-primary); font-weight: 600;"></i>Class Trainer List</h3>
+            <h3>Discount Details List</h3>
         </div>
         <div class="card-body">
             <!-- Add table-responsive class -->
@@ -61,51 +61,38 @@ require_once('../adminLayout/header1.php'); ?>
                     <i class="fas fa-check-circle me-2"></i><?= $success ?>
                 </div>
             <?php } ?>
-            <!-- Add table-responsive class -->
             <div class="table-responsive">
                 <table class="table table-sm table-striped table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">No.</th>
-                            <th scope="col">Class</th>
-                            <th scope="col">Trainer</th>
-                            <th scope="col">Price</th>
+                            <th scope="col">Package Name</th>
+                            <th scope="col">Percentage</th>
+                            <th scope="col">Start Date</th>
+                            <th scope="col">End Date</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if ($row->num_rows > 0) {
                             while ($show = $row->fetch_assoc()) {
-                                // Fetch class name for this class trainer
-                                $class_sql = "SELECT class_name FROM class WHERE class_id='" . $show['class_id'] . "' LIMIT 1";
-                                $class_result = $conn->query($class_sql);
-                                $class_name = '';
-                                if ($class_result && $class_result->num_rows > 0) {
-                                    $class_row = $class_result->fetch_assoc();
-                                    $class_name = $class_row['class_name'];
-                                }
-                                // Fetch trainer for this class
-                                $trainer_sql = "SELECT trainer_name FROM trainer WHERE trainer_id='" . $show['trainer_id'] . "' LIMIT 1";
-                                $trainer_result = $conn->query($trainer_sql);
-                                $trainer_name = '';
-                                if ($trainer_result && $trainer_result->num_rows > 0) {
-                                    $trainer_row = $trainer_result->fetch_assoc();
-                                    $trainer_name = $trainer_row['trainer_name'];
-                                }
+                                $discount_sql = "SELECT * FROM discount WHERE discount_id = " . $show['discount_id'];
+                                $discount_sql = $conn->query($discount_sql);
+                                $discount_row = $discount_sql->fetch_assoc();
+                                // var_dump($discount_row);
+                                // die();
+                                $discount_name = $discount_row['name_of_package'];
+                                $discount_percentage = $discount_row['percentage'];
                         ?>
-
                                 <tr>
-                                    <td><?= $numberTitle + 1 ?></td>
-                                    <td><?= $class_name ?></td>
-                                    <td><?= $trainer_name ?></td>
-                                    <td><?= $show['price'] ?> dollars</td>
+                                    <td><?= $numberTitle ?></td>
+                                    <td><?= $discount_name ?></td>
+                                    <td><?= $discount_percentage ?></td>
+                                    <td><?= $show['start_date'] ?></td>
+                                    <td><?= $show['end_date'] ?></td>
                                     <td>
-                                        <a href="<?= '../admin/class_trainer_edit.php?id=' . $show['class_id'] ?>" class="btn btn-sm btn-primary">
-                                            <i class="fas fa-edit me-1"></i>
-                                        </a>
-                                        <button data-id="<?= $show['class_id'] ?>" class="btn btn-sm btn-danger delete_btn">
-                                            <i class="fas fa-trash me-1"></i>
-                                        </button>
+                                        <a href="<?= '../admin/discount_edit.php?id=' . $show['discount_id'] ?>" class="btn btn-sm btn-primary"><i class="fas fa-edit me-1"></i></a>
+                                        <button data-id="<?= $show['trainer_id'] ?>" class="btn btn-sm btn-danger delete_btn"><i class="fas fa-trash me-1"></i></button>
                                     </td>
                                     <?php $numberTitle++ ?>
                                 </tr>
@@ -164,7 +151,7 @@ require_once('../adminLayout/header1.php'); ?>
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = 'class_list.php?delete_id=' + id
+                    window.location.href = 'member_list.php?delete_id=' + id
                 }
             });
         })

@@ -42,11 +42,15 @@ if ($delete_id !== '') {
 require_once('../adminLayout/header1.php'); ?>
 
 
-
+<div class="d-flex justify-content-end mt-3">
+    <button onclick="window.history.back()" class="btn btn-glass">
+        <i class="fa-solid fa-arrow-left me-2"></i>Back
+    </button>
+</div>
 <div class="container mt-4">
 
-    <div class="card text-center">
-        <div class="card-header">
+    <div class="card text-center" style="background: var(--glass-bg); border-radius: 20px; box-shadow: var(--glass-shadow); border: 1.5px solid var(--glass-border); overflow: hidden;">
+        <div class="card-header" style="background: transparent; border-bottom: 1px solid rgba(255,255,255,0.12);">
             <h3>Discount List</h3>
         </div>
         <div class="card-body">
@@ -74,8 +78,8 @@ require_once('../adminLayout/header1.php'); ?>
                                     <td><?= $show['name_of_package'] ?></td>
                                     <td><?= $show['percentage'] ?></td>
                                     <td>
-                                        <a href="<?= '../admin/discount_edit.php?id=' . $show['discount_id'] ?>" class="btn btn-sm btn-primary">Edit</a>
-                                        <button data-id="<?= $show['trainer_id'] ?>" class="btn btn-sm btn-danger delete_btn">Delete</button>
+                                        <a href="<?= '../admin/discount_edit.php?id=' . $show['discount_id'] ?>" class="btn btn-sm btn-primary"><i class="fas fa-edit me-1"></i></a>
+                                        <button data-id="<?= $show['trainer_id'] ?>" class="btn btn-sm btn-danger delete_btn"><i class="fas fa-trash me-1"></i></button>
                                     </td>
                                 </tr>
                         <?php }

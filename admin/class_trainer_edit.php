@@ -13,19 +13,39 @@ require '../storage/central_function.php';
 
 $error = false;
 $class_name = '';
-$description = '';
-$duration = '';
+$trainer_name = '';
+$price = '';
+
+if (isset($_GET['id']) && $_GET['id'] !== '') {
+    $id = $_GET['id'];
+    $selectData = select_data('class_trainer', $conn, "*", "WHERE `class_trainer_id`='$id'");
+
+    if ($selectData->num_rows > 0) {
+        $data = $selectData->fetch_assoc();
+        $class_id = $data['class_id'];
+        $trainer_id = $data['trainer_id'];
+        $price = $data['price'];
+    } else {
+        $url = "./class_trainer_list.php?error=Id Not Found";
+        header("Location: $url");
+    }
+    header("Location: $url");
+}
 
 $select_class = select_data('class', $conn, '*', '', '');
+$select_trainer = select_data('trainer', $conn, '*', '', '');
+// var_dump($select_class);
+// var_dump($select_trainer);
+// die;
+
 
 $success = $_GET['success'] ? $_GET['success']  : '';
-var_dump($success);
+
 
 if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $class_id = $_POST['class'];
-    $day_of_week = $_POST['day_of_week'];
-    $start_time = $_POST['start_time'];
-    $end_time = $_POST['end_time'];
+    $trainer_id = $_POST['trainer'];
+    $price = $_POST['price'];
 
     //class validation
     if ($class_id == '' && strlen($class_id) == 0) {
@@ -35,28 +55,20 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
         $class_error = '';
     }
 
-    //day validation
-    if ($day_of_week == '') {
+    //trainer validation
+    if ($trainer_id == '' && strlen($trainer_id) == 0) {
         $error = true;
-        $day_error = 'You should select day.';
+        $trainer_error = 'You should select trainer name.';
     } else {
-        $day_error = '';
+        $trainer_error = 'Success';
     }
 
-    //time validation
-    if ($start_time == '') {
+    //price validation
+    if ($price == '') {
         $error = true;
-        $start_time_error = 'You should fill start time.';
+        $price_error = 'You must input price.';
     } else {
-        $start_time_error = '';
-    }
-
-    //end time validation
-    if ($end_time == '') {
-        $error = true;
-        $end_time_error = 'You should fill end time.';
-    } else {
-        $end_time_error = '';
+        $price_error = '';
     }
 
     if (!$error) {
@@ -67,20 +79,23 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
             // Insert class information
             $data = [
                 'class_id' => $class_id,
-                'day_of_week' => $day_of_week,
-                'start_time' => $start_time,
-                'end_time' => $end_time
+                'trainer_id' => $trainer_id,
+                'price' => $price
             ];
-            $result = insertData('class_schedule', $conn, $data);
+            $where = [
+                'class_trainer_id' => $id
+            ];
+
+            $result = updateData('class_trainer', $conn, $data, $where);
 
             if ($result) {
                 mysqli_commit($conn);
-                $url = '../admin/class_schedule_create.php?success=One row inserted.';
+                $url = '../admin/class_trainer_list.php?success=One row updated.';
                 header("Location: $url");
                 exit;
             } else {
                 mysqli_rollback($conn);
-                $url = '../admin/class_schedule_create.php?error=Error In Insertion';
+                $url = '../admin/class_trainer_edit.php?error=Error In Update';
                 header("Location: $url");
                 exit;
             }
@@ -96,6 +111,13 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
 <?php
 require_once('../adminLayout/header1.php'); ?>
 
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!-- Flatpickr CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
@@ -107,10 +129,10 @@ require_once('../adminLayout/header1.php'); ?>
 <div class="container mt-4 fade-in-up">
     <div class="card" style="background: var(--glass-bg); border-radius: 20px; box-shadow: var(--glass-shadow); border: 1.5px solid var(--glass-border); overflow: hidden;">
         <div class="card-header" style="background: transparent; border-bottom: 1px solid rgba(255,255,255,0.12);">
-            <h3><i class="fas fa-calendar-alt me-2" style="color: var(--text-primary); font-weight: 600;"></i>Create Class Schedule</h3>
+            <h3><i class="fas fa-calendar-alt me-2" style="color: var(--text-primary); font-weight: 600;"></i>Update Class Trainer</h3>
         </div>
         <div class="card-body">
-            <form class="mt-3" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+            <form class="mt-3" action="<?= './class_trainer_edit.php?id=' . $id ?>" method="POST">
                 <?php if ($success !== '') { ?>
                     <div class="alert alert-success">
                         <i class="fas fa-check-circle me-2"></i><?= $success ?>
@@ -120,62 +142,52 @@ require_once('../adminLayout/header1.php'); ?>
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="class" class="form-label">
-                            <i class="fas fa-chalkboard-teacher me-2"></i>Class Name
+                            <i class="fas fa-chalkboard-teacher me-2"></i>Class
                         </label>
                         <select name="class" class="form-control" id="class">
                             <option value="">Select Class</option>
                             <?php while ($row = $select_class->fetch_assoc()): ?>
-                                <option value="<?= $row['class_id'] ?>"><?= htmlspecialchars($row['class_name']) ?></option>
+                                <option value="<?= $row['class_id'] ?>" <?= ($row['class_id'] == $class_id) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($row['class_name']) ?>
+                                </option>
                             <?php endwhile; ?>
                         </select>
                         <?php if (isset($class_error) && $class_error) { ?>
                             <div class="text-danger small mt-1"><?= $class_error ?></div>
                         <?php } ?>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="day_of_week" class="form-label">
-                            <i class="fas fa-calendar-day me-2"></i>Day of Week
-                        </label>
-                        <select name="day_of_week" class="form-control" id="day_of_week">
-                            <option value="">Select Day</option>
-                            <option value="monday">Monday</option>
-                            <option value="tuesday">Tuesday</option>
-                            <option value="wednesday">Wednesday</option>
-                            <option value="thursday">Thursday</option>
-                            <option value="friday">Friday</option>
-                            <option value="saturday">Saturday</option>
-                        </select>
-                        <?php if (isset($day_error) && $day_error) { ?>
-                            <div class="text-danger small mt-1"><?= $day_error ?></div>
-                        <?php } ?>
-                    </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="start_time" class="form-label">
-                            <i class="fas fa-clock me-2"></i>Start Time
+                        <label for="class" class="form-label">
+                            <i class="fas fa-chalkboard-teacher me-2"></i>Trainer
                         </label>
-                        <input type="text" id="start_time" name="start_time" class="form-control flatpickr-input" placeholder="Select start time" required readonly>
-                        <?php if (isset($start_time_error) && $start_time_error) { ?>
-                            <div class="text-danger small mt-1"><?= $start_time_error ?></div>
-                        <?php } ?>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="end_time" class="form-label">
-                            <i class="fas fa-clock me-2"></i>End Time
-                        </label>
-                        <input type="text" id="end_time" name="end_time" class="form-control flatpickr-input" placeholder="Select end time" required readonly>
-                        <?php if (isset($end_time_error) && $end_time_error) { ?>
-                            <div class="text-danger small mt-1"><?= $end_time_error ?></div>
+                        <select name="trainer" class="form-control" id="class">
+                            <option value="">Select Trainer</option>
+                            <?php while ($trainer_row = $select_trainer->fetch_assoc()): ?>
+                                <option value="<?= $trainer_row['trainer_id'] ?>" <?= ($trainer_row['trainer_id'] == $trainer_id) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($trainer_row['trainer_name']) ?></option>
+                                </option>
+                            <?php endwhile; ?>
+                        </select>
+                        <?php if (isset($trainer_error) && $trainer_error) { ?>
+                            <div class="text-danger small mt-1"><?= $trainer_error ?></div>
                         <?php } ?>
                     </div>
                 </div>
-
+                <div class="mb-3">
+                    <label for="price" class="form-label">
+                        <i class="fas fa-dollar me-2"></i>Price
+                    </label>
+                    <input type="number" class="form-control" id="price" name="price" value="<?= $price ?>" placeholder="Enter price" step="0.1" min="0">
+                    <?php if (isset($price_error) && $price_error) { ?>
+                        <div class="text-danger small mt-1"><?= $price_error ?></div>
+                    <?php } ?>
+                </div>
                 <input type="hidden" name="form_sub" value="1">
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="fas fa-save me-2"></i>Submit
+                        <i class="fas fa-save me-2"></i>Update
                     </button>
                 </div>
             </form>

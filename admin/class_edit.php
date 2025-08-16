@@ -16,6 +16,8 @@ $error = false;
 $class_name = '';
 $description = '';
 $duration = '';
+$editId = '';
+
 
 $success = $_GET['success'] ? $_GET['success']  : '';
 if (isset($_GET['id']) && $_GET['id'] !== '') {
@@ -28,6 +30,7 @@ if (isset($_GET['id']) && $_GET['id'] !== '') {
         $img_data = $select_img->fetch_all(MYSQLI_ASSOC);
         $class_name = $data['class_name'];
         $description = $data['description'];
+        $editId = $data['class_id'];
     } else {
         $url = "./class_list.php?error=Id Not Found";
         header("Location: $url");
@@ -38,6 +41,7 @@ try {
     if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $class_name = $_POST['name'];
         $description = $_POST['description'];
+        $id = $_POST['id'] ?? '';
 
         // name validation
         if (strlen($class_name) == 0 && $class_name == '') {
@@ -61,7 +65,6 @@ try {
         if (!$error) {
             // Start transaction
             mysqli_begin_transaction($conn);
-
             try {
                 // Insert class information
                 $data = [
@@ -72,14 +75,13 @@ try {
                     'class_id' => $id
                 ];
                 $result = updateData('class', $conn, $data, $where);
-
-                $class_id = mysqli_insert_id($conn);
-
+                // var_dump($class_id, $result, $_FILES['image']);
+                // die;
                 // Insert class image(s)
                 $image_success = true;
                 $uploaded_files = []; // Track uploaded files
 
-                if ($result && $class_id && isset($_FILES['image'])) {
+                if ($result && $id && isset($_FILES['image'])) {
                     $images = $_FILES['image'];
                     $allowed = ['JPG', 'jpeg', 'png', 'jpg'];
 
@@ -101,7 +103,7 @@ try {
                                 $img_data = [
                                     'img' => $path,
                                     'type' => 'class',
-                                    'target_id' => $class_id
+                                    'target_id' => $id
                                 ];
                                 $insert = insertData('image', $conn, $img_data);
                                 if (!$insert) {
@@ -123,6 +125,7 @@ try {
                 if ($result && $image_success) {
                     mysqli_commit($conn);
                     $success = "Class created successfully!";
+                    header("Location: ./class_list.php?success=" . urlencode($success));
                 } else {
                     // Delete uploaded files if transaction fails
                     foreach ($uploaded_files as $file) {
@@ -149,14 +152,19 @@ try {
 
 <?php
 require_once('../adminLayout/header1.php'); ?>
-
+<div class="d-flex justify-content-end mt-3">
+    <button onclick="window.history.back()" class="btn btn-glass">
+        <i class="fa-solid fa-arrow-left me-2"></i>Back
+    </button>
+</div>
 <div class="container mt-4 fade-in-up">
-    <div class="card">
-        <div class="card-header">
-            <h3><i class="fas fa-chalkboard-teacher me-2"></i>Create New Class</h3>
+    <div class="card" style="background: var(--glass-bg); border-radius: 20px; box-shadow: var(--glass-shadow); border: 1.5px solid var(--glass-border); overflow: hidden;">
+        <div class="card-header" style="background: transparent; border-bottom: 1px solid rgba(255,255,255,0.12);">
+            <h3><i class="fas fa-chalkboard-teacher me-2" style="color: var(--text-primary); font-weight: 600;"></i>Update Class</h3>
         </div>
         <div class="card-body">
             <form class="mt-3" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="<?= $editId ?>">
                 <?php if ($success !== '') { ?>
                     <div class="alert alert-success">
                         <i class="fas fa-check-circle me-2"></i><?= $success ?>

@@ -7,7 +7,6 @@ if ($user_role != "admin") {
 }
 require '../storage/db.php';
 require '../storage/central_function.php';
-
 // Fetch counts from DB
 $total_classes = 0;
 $total_members = 0;
@@ -28,17 +27,20 @@ $trainer_result = $conn->query("SELECT COUNT(*) as cnt FROM trainer");
 if ($trainer_result && $row = $trainer_result->fetch_assoc()) {
     $total_trainers = $row['cnt'];
 }
-
-// Fetch latest 8 users
-$user_list = [];
-$user_query = $conn->query("SELECT id, name, email, created_at, status FROM member ORDER BY created_at DESC LIMIT 8");
-if ($user_query) {
-    while ($row = $user_query->fetch_assoc()) {
-        $user_list[] = $row;
-    }
-}
 ?>
-<?php require_once('../adminLayout/header1.php'); ?>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Bootstrap Bundle with Popper (required for modals to work) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<?php
+require_once('../adminLayout/header1.php');
+?>
 
 <div class="container-fluid mt-4">
     <div class="dashboard-cards">
@@ -69,11 +71,11 @@ if ($user_query) {
     </div>
 
     <!-- User List Table -->
-    <div class="row mt-5">
+    <!-- <div class="row mt-5">
         <div class="col-12">
             <div class="card p-0" style="background: var(--glass-bg); border-radius: 20px; box-shadow: var(--glass-shadow); border: 1.5px solid var(--glass-border); overflow: hidden;">
                 <div class="card-header" style="background: transparent; border-bottom: 1px solid rgba(255,255,255,0.12);">
-                    <h5 class="mb-0" style="color: var(--text-primary); font-weight: 600;">Recent Members</h5>
+                    <h5 class="mb-0" style="color: var(--text-primary); font-weight: 600;">Recent User</h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
@@ -111,7 +113,7 @@ if ($user_query) {
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <script>

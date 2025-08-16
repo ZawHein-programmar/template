@@ -41,8 +41,8 @@ if ($delete_id !== '') {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-<?php
-require_once('../adminLayout/header1.php'); ?>
+
+
 <style>
     .header {
         /* background: url('./images/gymgirls.png') no-repeat right/contain; */
@@ -124,7 +124,7 @@ require_once('../adminLayout/header1.php'); ?>
         padding: 20px;
     }
 
-    table thead {
+    table #thead-inv {
         border: 1px solid #b6ff00;
         border-bottom: none;
         border-top: none;
@@ -180,12 +180,20 @@ require_once('../adminLayout/header1.php'); ?>
     }
 </style>
 
+<?php
+require_once('../adminLayout/header1.php'); ?>
 
+
+<div class="d-flex justify-content-end mt-3">
+    <button onclick="window.history.back()" class="btn btn-glass">
+        <i class="fa-solid fa-arrow-left me-2"></i>Back
+    </button>
+</div>
 <div class="container mt-4 fade-in-up">
 
-    <div class="card text-center">
-        <div class="card-header">
-            <h3><i class="fas fa-users me-2"></i>Payment List</h3>
+    <div class="card text-center" style="background: var(--glass-bg); border-radius: 20px; box-shadow: var(--glass-shadow); border: 1.5px solid var(--glass-border); overflow: hidden;">
+        <div class="card-header" style="background: transparent; border-bottom: 1px solid rgba(255,255,255,0.12);">
+            <h3><i class="fas fa-users me-2" style="color: var(--text-primary); font-weight: 600;"></i>Payment List</h3>
         </div>
         <div class="card-body">
             <!-- Add table-responsive class -->
@@ -311,7 +319,7 @@ require_once('../adminLayout/header1.php'); ?>
                 <div class="container-fluid bg-dark" id="inv-print">
                     <div class="header">
                         <div class="text">
-                            <h1 class="mb-3">GYM <span style="color: #b6ff00;">FIT</span> INVOICE</h1>
+                            <h1 class="mb-3"><span style="color: #b6ff00;">GYM FIT</span> INVOICE</h1>
                             <div class="details">
                                 <div>Date: <span id="inv-date"></span>
                                 </div>
@@ -326,10 +334,12 @@ require_once('../adminLayout/header1.php'); ?>
 
                     <!-- <div class="section-title">Item Description</div> -->
                     <table>
-                        <thead>
+                        <thead id="thead-inv">
                             <tr>
+                                <th>No</th>
                                 <th>Class</th>
                                 <th>Trainer</th>
+                                <th>Discount</th>
                                 <th>Price</th>
                             </tr>
                         </thead>
@@ -358,13 +368,15 @@ require_once('../adminLayout/header1.php'); ?>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="printInvoice()">Print</button>
+                <button type="button" class="btn btn-primary" onclick="printInvoice()">Print Out</button>
             </div>
         </div>
     </div>
 </div>
 
-<?php include_once('../adminLayout/footer.php'); ?>
+<?php
+//include_once('../adminLayout/footer.php'); 
+?>
 
 <script>
     function printInvoice() {
@@ -572,26 +584,22 @@ require_once('../adminLayout/header1.php'); ?>
 
                     $('#inv-content').html(`
 <tr>
+    <td>1</td>
     <td>${response_arr.class_name}</td>
     <td>${response_arr.trainer_name}</td>
+    <td>${response_arr.name_of_package} (${response_arr.percentage}%)</td>
     <td>$${parseFloat(response_arr.amount).toFixed(2)}</td>
 </tr>
 <tr>
     <td></td>
     <td></td>
     <td></td>
-</tr>
-<tr>
-    <td></td>
     <td></td>
     <td></td>
 </tr>
 <tr>
     <td></td>
     <td></td>
-    <td></td>
-</tr>
-<tr>
     <td></td>
     <td></td>
     <td></td>
@@ -600,8 +608,40 @@ require_once('../adminLayout/header1.php'); ?>
     <td></td>
     <td></td>
     <td></td>
+    <td></td>
+    <td></td>
 </tr>
 <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+<tr>
+    <td></td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>

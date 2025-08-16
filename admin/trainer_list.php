@@ -41,12 +41,15 @@ if ($delete_id !== '') {
 <?php
 require_once('../adminLayout/header1.php'); ?>
 
-
-
+<div class="d-flex justify-content-end mt-3">
+    <button onclick="window.history.back()" class="btn btn-glass">
+        <i class="fa-solid fa-arrow-left me-2"></i>Back
+    </button>
+</div>
 <div class="container mt-4">
 
-    <div class="card text-center">
-        <div class="card-header">
+    <div class="card text-center" style="background: var(--glass-bg); border-radius: 20px; box-shadow: var(--glass-shadow); border: 1.5px solid var(--glass-border); overflow: hidden;">
+        <div class="card-header" style="background: transparent; border-bottom: 1px solid rgba(255,255,255,0.12);">
             <h3>Trainer List</h3>
         </div>
         <div class="card-body">

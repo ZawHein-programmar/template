@@ -5,7 +5,7 @@ if (isset($_COOKIE['user'])) {
 }
 if (isset($_POST['logout'])) {
     setcookie("user", '', -1, "/");
-    header('Location:../index.php');
+    header('Location:../login.php');
 }
 
 ?>

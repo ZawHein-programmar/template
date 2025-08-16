@@ -37,6 +37,11 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
     if (strlen($percentage) == 0) {
         $error = true;
         $percentage_error = "Your must fill discount percnetage.";
+    } elseif ($percentage < 0 || $percentage > 100) {
+        $error = true;
+        $percentage_error = "Percentage must be between 0 and 100.";
+    } else {
+        $percentage_error = "Complete.";
     }
 
     if (!$error) {
@@ -47,7 +52,7 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
         ];
 
         $result = insertData('discount', $conn, $data);
-        var_dump($result);
+        // var_dump($result);
 
         if ($result) {
             $url =  '../admin/discount_list.php?success=Created Success';
@@ -67,10 +72,15 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
 <?php
 require_once('../adminLayout/header1.php'); ?>
 
+<div class="d-flex justify-content-end mt-3">
+    <button onclick="window.history.back()" class="btn btn-glass">
+        <i class="fa-solid fa-arrow-left me-2"></i>Back
+    </button>
+</div>
 <div class="container mt-4 fade-in-up">
-    <div class="card">
-        <div class="card-header">
-            <h3><i class="fas fa-percentage me-2"></i>Create Discount Package</h3>
+    <div class="card" style="background: var(--glass-bg); border-radius: 20px; box-shadow: var(--glass-shadow); border: 1.5px solid var(--glass-border); overflow: hidden;">
+        <div class="card-header" style="background: transparent; border-bottom: 1px solid rgba(255,255,255,0.12);">
+            <h3><i class="fas fa-percentage me-2" style="color: var(--text-primary); font-weight: 600;"></i>Create Discount Package</h3>
         </div>
         <div class="card-body">
             <form class="mt-3" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">

@@ -26,7 +26,6 @@ function updateData($table, $mysql, $data, $where)
         $wheres[] = "`$key` = '$value'";
     }
     $sql .= implode(" AND ", $wheres);
-
     return $mysql->query($sql);
 }
 

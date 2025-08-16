@@ -132,6 +132,11 @@ if (isset($_POST['form_sub']) && $_POST['form_sub'] == 1 && $_SERVER['REQUEST_ME
 <?php
 require_once('../adminLayout/header1.php'); ?>
 
+<div class="d-flex justify-content-end mt-3">
+    <button onclick="window.history.back()" class="btn btn-glass">
+        <i class="fa-solid fa-arrow-left me-2"></i>Back
+    </button>
+</div>
 <div class="container-fluid mt-5" style="width: 50%; margin: 0px auto;">
     <h3>Edit Member</h3>
     <form class="mt-5 mb-5 login-input" action="<?= './member_edit.php?id=' . $id ?>" method="POST">

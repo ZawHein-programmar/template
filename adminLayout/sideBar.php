@@ -151,6 +151,35 @@
                             <i class="fas fa-list"></i>
                         </a>
                     </div>
+
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header " id="headingdetail">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapsedetail"
+                        aria-expanded="false"
+                        aria-controls="collapsedetail">
+                        <i class="fas fa-tag me-2"></i>Discount Detail
+                    </button>
+                </h2>
+                <div
+                    id="collapsedetail"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingdetail"
+                    data-bs-parent="#sidebarAccordion">
+                    <div class="py-3 text-center my-1">
+                        <a href="discount_detail_create.php" class="nav-link" title="Create Discount Package">
+                            <i class="fas fa-plus ms-1"></i>
+                        </a>
+                        <a href="discount_detail_list.php" class="nav-link" title="View Discount List">
+                            <i class="fas fa-list ms-1"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -163,7 +192,7 @@
                         data-bs-target="#collapseFive"
                         aria-expanded="false"
                         aria-controls="collapseFive">
-                        <i class="fas fa-tag me-2"></i>Discount Detail
+                        <i class="fas fa-chalkboard-teacher me-2"></i>Trainer Class
                     </button>
                 </h2>
                 <div
@@ -172,10 +201,38 @@
                     aria-labelledby="headingFive"
                     data-bs-parent="#sidebarAccordion">
                     <div class="py-3 text-center my-1">
-                        <a href="discount_detail_create.php" class="nav-link" title="Create Discount Package">
+                        <a href="class_trainer_create.php" class="nav-link" title="Create Discount Package">
                             <i class="fas fa-plus"></i>
                         </a>
-                        <a href="discount_detail_list.php" class="nav-link" title="View Discount List">
+                        <a href="class_trainer_list.php" class="nav-link" title="View Discount List">
+                            <i class="fas fa-list"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header " id="headingmc">
+                    <button
+                        class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapsemc"
+                        aria-expanded="false"
+                        aria-controls="collapsemc">
+                        <i class="fa-solid fa-book"></i>Member Class
+                    </button>
+                </h2>
+                <div
+                    id="collapsemc"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingmc"
+                    data-bs-parent="#sidebarAccordion">
+                    <div class="py-3 text-center my-1">
+                        <a href="member_class_create.php" class="nav-link" title="Create Discount Package">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        <a href="member_class_list.php" class="nav-link" title="View Discount List">
                             <i class="fas fa-list"></i>
                         </a>
                     </div>

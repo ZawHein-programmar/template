@@ -41,12 +41,16 @@ if ($delete_id !== '') {
 require_once('../adminLayout/header1.php'); ?>
 
 
-
+<div class="d-flex justify-content-end mt-3">
+    <button onclick="window.history.back()" class="btn btn-glass">
+        <i class="fa-solid fa-arrow-left me-2"></i>Back
+    </button>
+</div>
 <div class="container mt-4 fade-in-up">
 
-    <div class="card text-center">
-        <div class="card-header">
-            <h3><i class="fas fa-users me-2"></i>Class Member List</h3>
+    <div class="card text-center" style="background: var(--glass-bg); border-radius: 20px; box-shadow: var(--glass-shadow); border: 1.5px solid var(--glass-border); overflow: hidden;">
+        <div class="card-header" style="background: transparent; border-bottom: 1px solid rgba(255,255,255,0.12);">
+            <h3><i class="fas fa-users me-2" style="color: var(--text-primary); font-weight: 600;"></i>Class Member List</h3>
         </div>
         <div class="card-body">
             <!-- Add table-responsive class -->

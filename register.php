@@ -20,12 +20,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($name == "") {
         $nameErr = "Enter your name...";
         $invalid = false;
+    } elseif (strlen($name) > 50) {
+        $nameErr = "Name is too long.";
+        $invalid = false;
     } else {
-        if (!preg_match('/^[A-Za-z][A-Za-z0-9 ]*$/', $name)) {
-            $nameErr = "Invalid name";
-            $invalid = false;
-        }
+        $nameErr = "Success name.";
     }
+
     if ($email == "") {
         $emailErr = "Enter your email...";
         $invalid = false;
